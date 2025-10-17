@@ -1,7 +1,7 @@
 import React from 'react';
-import './App.css';
-import headerLogo from '../src/images/1-removebg-preview.png';
-import heroLogo from '../src/images/lao.png';
+import '../src/styles/globals.css'
+import headerLogo from '../src/assets/1-removebg-preview.png';
+import heroLogo from '../src/assets/lao.png';
 
 const App = () => {
   return (
