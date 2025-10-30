@@ -15,6 +15,7 @@ const IconArrowRight = (props) => (
 // --- PLACEHOLDER DATA (Replaced local imports with themed placeholders) ---
 import arunImg from "../assets/photo/arun.jpeg";
 import asifImg from "../assets/photo/asif.png";
+import irfanImg from "../assets/photo/irfan.jpg";
 
 const membersData = [
   {
@@ -28,6 +29,13 @@ const membersData = [
     name: "Mohamed Asif",
     role: "Founder",
     image: asifImg,
+    quote:
+      "Building connections that empower people is at the heart of our community — where ideas become impact.",
+  },
+   {
+    name: "Mohamed irfan",
+    role: "Member",
+    image: irfanImg,
     quote:
       "Building connections that empower people is at the heart of our community — where ideas become impact.",
   },

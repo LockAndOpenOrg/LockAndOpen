@@ -5,6 +5,8 @@ import HeroContent from "../components/HeroContent";
 import Members from "../components/Members";
 import JoinUs from "../components/JoinUs";
 import Product from "../components/Product";
+import ContactSection from "../components/ContactSection";
+import Footer from "../components/layout/Footer";
 
 export default function HomePage() {
   return (
@@ -37,6 +39,8 @@ export default function HomePage() {
       <Product />
       <Members />
       <JoinUs />
+      <ContactSection/>
+      <Footer/>
     </>
   );
 }
