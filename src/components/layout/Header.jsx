@@ -46,7 +46,7 @@ export default function Header() {
         <div className="flex-shrink-0">
           <a href="#home" onClick={() => setActiveLink('#home')}>
             <img
-              src="/src/assets/whitelogobgremove.png"// Make sure this path is correct
+              src="https://pub-abc94215359a43da824a781ae43c96c4.r2.dev/assets/photo/lockandopen_logo.png"// Make sure this path is correct
               alt="LockAndOpen Logo"
               className="h-14 w-auto drop-shadow-[0_0_8px_rgba(120,0,255,0.4)]"
             />
