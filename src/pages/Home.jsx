@@ -26,14 +26,11 @@ export default function HomePage() {
         <div className="absolute inset-0 backdrop-blur-[50px] bg-gradient-to-b from-black/40 via-black/60 to-black/80 z-0"></div>
 
         {/* --- Left Section (Hero Content) --- */}
-        <div className="relative z-10 flex-1 flex justify-center md:justify-start items-center text-gray-100 drop-shadow-[0_0_12px_rgba(130,0,255,0.3)]">
-          <HeroContent />
-        </div>
+<div className="min-h-screen w-full grid grid-cols-1 md:grid-cols-2 items-center relative">
+  <HeroContent />
+  <HeroAnimation />
+</div>
 
-        {/* --- Right Section (3D Animation) --- */}
-        <div className="relative flex-1 flex justify-center items-center h-[500px] md:h-[700px]">
-          <HeroAnimation />
-        </div>
       </div>
 
       <Product />

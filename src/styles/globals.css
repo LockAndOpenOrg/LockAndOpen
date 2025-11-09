@@ -1,29 +1,139 @@
-/* globals.css */
-
 /* Import font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* Tailwind layers */
+/* Tailwind setup */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------ */
+/* ✅ GLOBAL BASE STYLES          */
+/* ------------------------------ */
 
-html, body {
+html,
+body {
   scroll-behavior: smooth;
   overscroll-behavior: none;
-  perspective: 1000px;
+  font-family: 'Inter', sans-serif;
+  background: #000014;
+  color: white;
+  overflow-x: hidden;
 }
 
-* {
-  transform-style: preserve-3d;
+/* Improve text rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 
+/* ------------------------------ */
+/* ✅ ALL UTILITIES + ANIMATIONS */
+/* ------------------------------ */
+
+@layer utilities {
+
+  /* ✅ Floating glow blobs */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* ✅ Gradient background animation */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  .animate-gradient {
+    background-size: 250% 250%;
+    animation: gradientShift 12s ease infinite;
+  }
+
+  /* ✅ Slow swirl glow */
+  @keyframes swirl {
+    0% { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+  .animate-swirl-slow {
+    animation: swirl 25s linear infinite;
+  }
+  .animate-swirl-slow-reverse {
+    animation: swirl 25s linear infinite reverse;
+  }
+
+  /* ✅ Fade & slide animations */
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
+  .animate-fade-in-delay { animation: fadeIn 0.8s ease-out 0.4s forwards; }
+  .animate-fade-in-delay-2 { animation: fadeIn 0.8s ease-out 0.9s forwards; }
+
+  /* ------------------------------ */
+  /* ✅ SOCIAL ICON UTILITIES       */
+  /* ------------------------------ */
+
+
+  .social-icon {
+    @apply relative flex items-center justify-center 
+    cursor-pointer select-none
+    hover:scale-125 transition-transform duration-300;
+  }
+
+  .social-glow {
+    @apply absolute inset-0 bg-gradient-to-r rounded-full
+    opacity-0 blur-2xl scale-75
+    group-hover:opacity-90 group-hover:scale-100
+    transition-all duration-500;
+  }
+
+  .social-svg {
+    @apply w-9 h-9 text-gray-300 
+    group-hover:text-white
+    transition-all duration-300 relative z-10;
+  }
+
+
+}
+
+/* ------------------------------ */
+/* ✅ SCROLL MARGIN FIX           */
+/* ------------------------------ */
+
+section,
+[id] {
+  scroll-margin-top: 120px;
+}
+
+/* Scrollbar optional */
+/*
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
-} */
+}
+*/

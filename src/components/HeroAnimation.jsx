@@ -1,124 +1,98 @@
 /* eslint-disable no-unused-vars */
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, MeshWobbleMaterial, Sphere, Points, PointMaterial, useTexture } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
 
-// --- Floating Particles ---
+/* --- Floating Particles (Optimized) --- */
 function FloatingParticles() {
-  const pointsRef = useRef();
-
-  const count = 1000;
-  const positions = new Float32Array(count * 3);
-  for (let i = 0; i < count * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * 15;
-  }
+  const ref = useRef();
+  const count = 600; // optimized
+  const positions = useMemo(() => {
+    const arr = new Float32Array(count * 3);
+    for (let i = 0; i < count * 3; i++) {
+      arr[i] = (Math.random() - 0.5) * 12;
+    }
+    return arr;
+  }, []);
 
   useFrame(({ clock }) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y = clock.elapsedTime * 0.05;
+    if (ref.current) {
+      ref.current.rotation.y = clock.elapsedTime * 0.09;
     }
   });
 
   return (
-    <points ref={pointsRef}>
+    <points ref={ref}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={positions.length / 3}
           array={positions}
+          count={positions.length / 3}
           itemSize={3}
         />
       </bufferGeometry>
       <pointsMaterial
-        color="#b46dff"
+        color="#c084fc"
         size={0.03}
         sizeAttenuation
         transparent
-        opacity={0.7}
+        opacity={0.55}
       />
     </points>
   );
 }
 
-// --- Rotating Sphere with Glow ---
-function RotatingSphere() {
-  const meshRef = useRef();
+/* --- Rotating Main Shape (Reduced Metalness for Glow) --- */
+function RotatingShape() {
+  const ref = useRef();
 
   useFrame(({ clock }) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.002;
-      meshRef.current.rotation.x += 0.001;
-      meshRef.current.material.emissiveIntensity =
-        0.5 + Math.sin(clock.elapsedTime * 2) * 0.3;
+    if (ref.current) {
+      ref.current.rotation.x += 0.002;
+      ref.current.rotation.y += 0.003;
     }
   });
 
   return (
-    <mesh ref={meshRef}>
-      <icosahedronGeometry args={[2.7, 2]} />
+    <mesh ref={ref}>
+      <icosahedronGeometry args={[2.2, 3]} />
       <meshStandardMaterial
-        color="#8e2de2"
+        color="#a855f7"
         wireframe
-        emissive="#a855f7"
-        emissiveIntensity={0.8}
-        roughness={0.6}
-        metalness={0.8}
+        emissive="#9333ea"
+        emissiveIntensity={0.9}
+        metalness={0.4}
+        roughness={0.2}
       />
     </mesh>
   );
 }
 
-// --- Background Light Glow Plane ---
-function BackgroundGlow() {
-  return (
-    <mesh position={[0, 0, 0]}>
-      <planeGeometry args={[0, 0]} />
-      <meshBasicMaterial color="#1a0033" transparent opacity={0.9} />
-    </mesh>
-  );
-}
-
-// --- Main Animation ---
 export default function HeroAnimation() {
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        position: "relative",
-      }}
-    >
+    <div className="w-full h-full relative">
       <Canvas
-  camera={{ position: [0, 0, 8], fov: 60 }}
-  style={{ width: "100%", height: "100%", background: "transparent" }}
-  gl={{ alpha: true }}
->
-  {/* Lighting */}
-  <ambientLight intensity={0.3} />
-  <pointLight position={[5, 5, 5]} intensity={2.2} color="#b46dff" />
-  <pointLight position={[-5, -3, -2]} intensity={1.5} color="#8e2de2" />
+        camera={{ position: [0, 0, 8], fov: 55 }}
+        gl={{ alpha: true }}
+      >
+        {/* Lights */}
+        <ambientLight intensity={0.7} />
+        <pointLight position={[4, 4, 4]} intensity={1.8} color="#c084fc" />
+        <pointLight position={[-4, -3, -2]} intensity={1} color="#8b5cf6" />
 
-  {/* Scene Elements */}
-  <BackgroundGlow />
-  <FloatingParticles />
-  <RotatingSphere />
+        <FloatingParticles />
+        <RotatingShape />
 
-  {/* Postprocessing Effects */}
-  <EffectComposer>
-    <Bloom
-      intensity={1.2}
-      luminanceThreshold={0.2}
-      luminanceSmoothing={0.9}
-    />
-    <Vignette eskil={false} offset={0.2} darkness={1.1} />
-  </EffectComposer>
+        {/* Postprocessing */}
+        <EffectComposer>
+          <Bloom intensity={0.9} luminanceThreshold={0.15} />
+          <Vignette offset={0.25} darkness={1} />
+        </EffectComposer>
 
-  {/* Interactive Camera */}
-  <OrbitControls enableZoom={false} enablePan={false} />
-</Canvas>
-
+        <OrbitControls enableZoom={false} enablePan={false} />
+      </Canvas>
     </div>
   );
 }
