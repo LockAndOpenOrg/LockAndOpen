@@ -7,7 +7,7 @@ export default function HeroContent() {
       <h1 className="text-3xl md:text-3xl lg:text-5xl font-bold text-white mb-4 leading-snug animate-slide-up">
         Welcome to Lock and
         <br />
-        <span className="text-white">Open Community</span>
+        <span className="bg-gradient-to-r from-white via-gray-100 to-[#e7d0ff] bg-clip-text text-transparent ">Open Community</span>
       </h1>
       <p className="text-lg md:text-xl text-gray-400 mb-8 animate-fade-in-delay">
         Equip - Shared Ideology - Innovate
@@ -53,4 +53,3 @@ export default function HeroContent() {
     </div>
   );
 }
-

@@ -7,7 +7,7 @@
 @tailwind utilities;
 
 /* ------------------------------ */
-/* ✅ GLOBAL BASE STYLES          */
+/* GLOBAL BASE STYLES             */
 /* ------------------------------ */
 
 html,
@@ -27,12 +27,14 @@ body {
 }
 
 /* ------------------------------ */
-/* ✅ ALL UTILITIES + ANIMATIONS */
+/* UTILITIES + ANIMATIONS         */
 /* ------------------------------ */
 
 @layer utilities {
 
-  /* ✅ Floating glow blobs */
+  /* ------------------------------ */
+  /* Floating glow blobs            */
+  /* ------------------------------ */
   @keyframes float {
     0%, 100% {
       transform: translateY(0);
@@ -41,61 +43,85 @@ body {
       transform: translateY(-15px);
     }
   }
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
 
-  /* ✅ Gradient background animation */
-  @keyframes gradientShift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
+  /* ------------------------------ */
+  /* Hide scrollbar (all browsers)  */
+  /* ------------------------------ */
+  .no-scrollbar {
+    -ms-overflow-style: none;     /* IE & Edge */
+    scrollbar-width: none;        /* Firefox */
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;                /* Chrome, Safari */
+  }
+
+  /* ------------------------------ */
+  /* Gradient background animation  */
+  /* ------------------------------ */
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
   .animate-gradient {
     background-size: 250% 250%;
     animation: gradientShift 12s ease infinite;
   }
 
-  /* ✅ Slow swirl glow */
+  /* ------------------------------ */
+  /* Slow swirl glow                */
+  /* ------------------------------ */
   @keyframes swirl {
     0% { transform: rotate(0deg) scale(1); }
     100% { transform: rotate(360deg) scale(1); }
   }
+
   .animate-swirl-slow {
     animation: swirl 25s linear infinite;
   }
+
   .animate-swirl-slow-reverse {
     animation: swirl 25s linear infinite reverse;
   }
 
-  /* ✅ Fade & slide animations */
+  /* ------------------------------ */
+  /* Fade & slide animations        */
+  /* ------------------------------ */
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
   }
+
   .animate-slide-up {
     animation: slideUp 0.8s ease-out forwards;
   }
 
   @keyframes fadeIn {
     from { opacity: 0; }
-    to { opacity: 1; }
+    to   { opacity: 1; }
   }
-  .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
-  .animate-fade-in-delay { animation: fadeIn 0.8s ease-out 0.4s forwards; }
-  .animate-fade-in-delay-2 { animation: fadeIn 0.8s ease-out 0.9s forwards; }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-delay {
+    animation: fadeIn 0.8s ease-out 0.4s forwards;
+  }
+
+  .animate-fade-in-delay-2 {
+    animation: fadeIn 0.8s ease-out 0.9s forwards;
+  }
 
   /* ------------------------------ */
-  /* ✅ SOCIAL ICON UTILITIES       */
+  /* Social icon utilities          */
   /* ------------------------------ */
-
-
   .social-icon {
     @apply relative flex items-center justify-center 
     cursor-pointer select-none
@@ -115,25 +141,13 @@ body {
     transition-all duration-300 relative z-10;
   }
 
-
 }
 
 /* ------------------------------ */
-/* ✅ SCROLL MARGIN FIX           */
+/* SCROLL MARGIN FIX              */
 /* ------------------------------ */
 
 section,
 [id] {
   scroll-margin-top: 120px;
 }
-
-/* Scrollbar optional */
-/*
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-*/

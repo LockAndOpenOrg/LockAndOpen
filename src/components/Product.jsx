@@ -1,239 +1,266 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-"use client";
-import React, { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import imagePreview from "../assets/image.png";
-import ComingSoon from "../assets/photo/logowhite-removebg-preview.png"
-/* ---------------------------
-   PRODUCT DATA
---------------------------- */
-const products = [
+// ProductShowcase.jsx
+import React, { useRef, useState, useEffect } from "react";
+import { ArrowRight, Lock, Sparkles } from "lucide-react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
+
+// --- Import Images ---
+import PicStreamImg from "../assets/image.png";
+import ComingSoonImg from "../assets/Researchhub pic.png";
+
+// --- Configuration ---
+const PRODUCTS_DATA = [
   {
+    id: "picstream",
     title: "PicStream",
     description:
-      "Effortlessly manage and download images in bulk — free, fast, and intuitive.",
+      "PicStream is a free and powerful tool that simplifies bulk image downloading. Designed for designers, researchers, and content creators, it allows users to collect multiple images at once with a single click. Instead of downloading pictures individually, PicStream streamlines the entire process with an intuitive interface and strong performance. It saves time, reduces effort, and helps users gather high-quality visuals efficiently.",
     link: "https://picstream.lockandopen.in/",
-    image: imagePreview,
+    imagePlaceholder: PicStreamImg,
     isComingSoon: false,
+gradient: "radial-gradient(circle at 70% 30%, #08001f 0%, #00000f 80%)",
+    accent: "#38bdf8",
+    glowColor: "#140145",
   },
   {
-    title: "Coming Soon",
+    id: "coming-soon",
+    title: "Our Next Innovation",
     description:
-      "We are working on something exciting! Stay tuned for our next innovative solution.",
+      "The AI-Powered Community Research Platform is designed to transform how teams collaborate and explore knowledge—without the hassle of switching between multiple tools. Users can securely upload and manage documents, extract insights from large collections of PDF. With AI-driven features like smart summaries, intelligent suggestions, and context-aware recommendations, research communities can move faster and make informed decisions.",
     link: "#",
-    image: ComingSoon,
+    imagePlaceholder: ComingSoonImg,
     isComingSoon: true,
+gradient: "radial-gradient(circle at 70% 30%, #08001f 0%, #00000f 80%)",
+    accent: "#a855f7",
+    glowColor: "#2e1065",
   },
 ];
 
-/* ---------------------------
-   ANIMATIONS
---------------------------- */
-const fadeUp = {
-  hidden: { opacity: 0, y: 25 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-};
-
-/* ---------------------------
-   SCROLL REVEAL WRAPPER
---------------------------- */
-function ScrollRevealWrapper({ children, containerRef }) {
-  const ref = useRef(null);
+// --- Product Section ---
+const ProductSection = ({ product, index, setSectionRef }) => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { amount: 0.3 });
 
   const { scrollYProgress } = useScroll({
-    target: ref,
-    container: containerRef,
-    offset: ["start 90%", "end 10%"],
+    target: sectionRef,
+    offset: ["start end", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [50, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
-  return (
-    <motion.div
-      ref={ref}
-      style={{ y, opacity }}
-      className="h-[92vh] w-full snap-center flex flex-col items-center justify-center px-6"
-    >
-      {children}
-    </motion.div>
-  );
-}
+  // FIX: prevent fading out
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 1]);
 
-/* ---------------------------
-   MAIN PRODUCT SECTION
---------------------------- */
-export default function Product() {
-  const scrollRef = useRef(null);
-  const lastUserScrollRef = useRef(Date.now());
-
-  /* ------------------------------------------
-      ✅ AUTO SCROLL ENGINE (smooth + production ready)
-   --------------------------------------------- */
   useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    let SPEED = 0.35;
-    let raf;
-
-    const autoScroll = () => {
-      const now = Date.now();
-      const idleTime = now - lastUserScrollRef.current;
-
-      // Only auto scroll when user inactive for > 1200ms
-      if (idleTime > 1200) {
-        container.scrollTop += SPEED;
-
-        // Loop scroll
-        if (
-          container.scrollTop + container.clientHeight >=
-          container.scrollHeight - 2
-        ) {
-          container.scrollTop = 0;
-        }
-      }
-
-      raf = requestAnimationFrame(autoScroll);
-    };
-
-    raf = requestAnimationFrame(autoScroll);
-
-    const userScrolled = () => {
-      lastUserScrollRef.current = Date.now();
-    };
-
-    container.addEventListener("wheel", userScrolled);
-    container.addEventListener("touchmove", userScrolled);
-    container.addEventListener("scroll", userScrolled);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      container.removeEventListener("wheel", userScrolled);
-      container.removeEventListener("touchmove", userScrolled);
-      container.removeEventListener("scroll", userScrolled);
-    };
-  }, []);
+    if (sectionRef.current) setSectionRef(sectionRef.current, index);
+  }, [index, setSectionRef]);
 
   return (
-    <div className="w-full h-screen flex flex-col lg:flex-row text-white bg-[#010008] overflow-hidden">
-      {/* ------------------------------------------------------
-          LEFT COLUMN  (sticky text)
-      ------------------------------------------------------ */}
+    <section
+      ref={sectionRef}
+      id="products"
+      className="relative h-screen w-full flex items-center justify-center overflow-hidden snap-start font-sans"
+    >
+      {/* Background */}
       <div
-        className="relative w-full lg:w-1/2 h-full flex flex-col justify-center items-center 
-        p-12 bg-gradient-to-b from-[#000015]/95 via-[#020015]/85 to-[#020015]/90 
-        backdrop-blur-xl border-r border-[#3e0099]/25 overflow-hidden"
-      >
-        {/* Breathing Glow */}
-        <motion.div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(142,45,226,0.05)_0%,transparent_75%)]"
-          animate={{ scale: [1, 1.15, 1] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
+        className="absolute inset-0 w-full h-full z-0"
+        style={{ background: product.gradient }}
+      />
 
+<div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] z-[1]" />
+
+      <div className="container mx-auto px-8 md:px-16 lg:px-24 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center h-full">
+        {/* Left Content */}
         <motion.div
-          variants={fadeUp}
+          className="order-2 lg:order-1"
           initial="hidden"
-          animate="visible"
-          className="relative max-w-md text-center space-y-6 py-12 lg:py-0 z-10"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            hidden: { opacity: 0, y: 10 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
         >
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-snug">
-            Discover{" "}
-            <span
-              className="bg-gradient-to-r from-[#6352d2] via-[#3e0099] to-[#8e2de2] 
-              bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(142,45,226,0.5)]"
-            >
-              Next-Gen Solutions
-            </span>
-          </h1>
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 backdrop-blur-md border border-white/10 mb-4 w-fit">
+            {product.isComingSoon ? (
+              <Sparkles size={12} style={{ color: product.accent }} />
+            ) : (
+              <span className="relative flex h-2 w-2">
+                <span
+                  className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                  style={{ backgroundColor: product.accent }}
+                />
+                <span
+                  className="relative inline-flex rounded-full h-2 w-2"
+                  style={{ backgroundColor: product.accent }}
+                />
+              </span>
+            )}
 
-          <p className="text-gray-200 text-lg leading-relaxed drop-shadow-[0_0_6px_rgba(255,255,255,0.25)]">
-            Experience cutting-edge performance and seamless design — crafted
-            for innovators shaping tomorrow’s digital world.
+            <span className="text-[10px] font-medium text-white/90 uppercase tracking-wide">
+              {product.isComingSoon ? "In Development" : "Live Project"}
+            </span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            {product.title}
+          </h2>
+
+          <p className="text-base text-white/70 mb-6 max-w-lg leading-relaxed">
+            {product.description}
           </p>
+
+          {product.isComingSoon ? (
+            <button className="flex items-center gap-3 px-7 py-3 rounded-lg bg-white/5 border border-white/10 text-white/40 text-sm">
+              <Lock size={16} /> Revealing Soon
+            </button>
+          ) : (
+            <a
+              href={product.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ backgroundColor: product.accent }}
+              className="group flex items-center gap-3 px-7 py-3 rounded-lg text-[#02011A] text-sm font-semibold hover:scale-105 transition-all w-fit"
+            >
+              Launch {product.title}
+              <ArrowRight
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </a>
+          )}
+        </motion.div>
+
+        {/* Right Image */}
+        {/* Right Image */}
+        <motion.div
+          style={{ y, opacity }}
+          className="order-1 lg:order-2 flex justify-center lg:justify-end relative"
+        >
+          {/* Glow */}
+          <div
+            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
+    rounded-full blur-3xl ${
+      product.isComingSoon ? "opacity-10" : "opacity-60"
+    }`}
+            style={{
+              width: "min(70vmin, 720px)",
+              height: "min(40vmin, 420px)",
+              backgroundColor: product.glowColor,
+            }}
+          />
+
+          {/* Image Container */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.28 }}
+            className={`relative w-full max-w-[760px] lg:max-w-[640px] aspect-[16/10]
+    ${
+      product.isComingSoon
+        ? "bg-transparent" /* NO DARK LAYER */
+        : "bg-[#02011A]/40 backdrop-blur-lg"
+    }
+    rounded-2xl border border-white/10 shadow-xl overflow-hidden 
+    flex items-center justify-center p-3`}
+          >
+            <img
+              src={product.imagePlaceholder}
+              alt={product.title}
+              className={`max-w-full max-h-full object-contain ${
+                product.isComingSoon
+                  ? "brightness-90 contrast-105 saturate-115"
+                  : ""
+              }`}
+            />
+
+            {/* Remove overlays for Coming Soon */}
+            {!product.isComingSoon && (
+              <>
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent rounded-2xl pointer-events-none" />
+                <div className="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none" />
+              </>
+            )}
+          </motion.div>
         </motion.div>
       </div>
+    </section>
+  );
+};
 
-      {/* ------------------------------------------------------
-          RIGHT COLUMN (AUTO-SCROLL + SNAPPING)
-      ------------------------------------------------------ */}
+// Main
+const Product = () => {
+  const [activeSection, setActiveSection] = useState(0);
+  const scrollContainerRef = useRef(null);
+  const sectionsRef = useRef([]);
+
+  const setSectionRef = (el, index) => (sectionsRef.current[index] = el);
+
+  const navigateToSection = (index) => {
+    if (!scrollContainerRef.current || !sectionsRef.current[index]) return;
+
+    scrollContainerRef.current.scrollTo({
+      top: sectionsRef.current[index].offsetTop,
+      behavior: "smooth",
+    });
+  };
+
+  const handleScroll = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const center = container.scrollTop + container.clientHeight / 2;
+
+    const index = sectionsRef.current.findIndex((sec) => {
+      if (!sec) return false;
+      const top = sec.offsetTop;
+      const h = sec.offsetHeight;
+      return center >= top && center < top + h;
+    });
+
+    if (index !== -1 && index !== activeSection) setActiveSection(index);
+  };
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    handleScroll();
+    container.addEventListener("scroll", handleScroll, { passive: true });
+
+    const onResize = () => handleScroll();
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [activeSection]);
+
+  return (
+
+    
+<div className="w-full h-screen bg-[#010014] text-white">
       <div
-        ref={scrollRef}
-        className="w-full lg:w-1/2 h-full overflow-y-auto snap-y snap-mandatory scroll-smooth 
-        scrollbar-thin scrollbar-thumb-[#3e0099]/70 scrollbar-track-[#020015] 
-        bg-gradient-to-b from-[#020015] via-[#020015] to-[#020015] relative"
+        ref={scrollContainerRef}
+  className="h-screen overflow-y-auto snap-y snap-mandatory no-scrollbar"
+  style={{ scrollBehavior: "smooth" }}
+        tabIndex={-1}
       >
-        {/* Glow animation on scroll */}
-        <motion.div
-          className="fixed inset-0 bg-[radial-gradient(ellipse_at_center,rgba(142,45,226,0.06)_0%,transparent_95%)] pointer-events-none"
-          animate={{ opacity: [0.25, 0.55, 0.25], scale: [1, 1.08, 1] }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {/* PRODUCT CARDS */}
-        {products.map((product, index) => (
-          <ScrollRevealWrapper key={index} containerRef={scrollRef}>
-            <div className="relative flex flex-col items-center justify-center w-full z-10">
-              {/* IMAGE CARD */}
-              <motion.div
-                className={`relative w-full max-w-3xl h-[45vh] rounded-3xl overflow-hidden 
-                shadow-[0_0_40px_rgba(30,0,100,0.5)] border border-[#3e0099]/95 backdrop-blur-2xl 
-                flex items-center justify-center transition-all duration-500 bg-[#020035]/90 
-                ${product.isComingSoon ? "opacity-80" : ""}`}
-                whileHover={!product.isComingSoon ? { scale: 1.02 } : {}}
-              >
-                {product.isComingSoon ? (
-                  // Non-clickable div for Coming Soon
-                  <div className="w-full h-full flex items-center justify-center relative">
-                    <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40">
-                      <span className="text-xl font-bold tracking-widest uppercase text-white/80 border-2 border-white/30 px-6 py-2 rounded-lg backdrop-blur-md">
-                        Coming Soon
-                      </span>
-                    </div>
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="w-full h-full object-contain rounded-3xl p-6 brightness-50 grayscale-[50%]"
-                    />
-                  </div>
-                ) : (
-                  // Standard clickable link
-                  <a
-                    href={product.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full h-full flex items-center justify-center"
-                  >
-                    <motion.img
-                      src={product.image}
-                      alt={product.title}
-                      className="w-full h-full object-contain rounded-3xl p-6 
-                      brightness-90 hover:brightness-110 transition-all duration-500 cursor-pointer"
-                      whileHover={{ scale: 1.04 }}
-                    />
-                  </a>
-                )}
-              </motion.div>
-
-              {/* TEXT */}
-              <div className="text-center mt-8 mb-12 px-6 sm:px-10 max-w-md mx-auto">
-                <h2
-                  className="text-4xl font-extrabold mb-4 bg-gradient-to-r 
-                  from-[#8e2de2] via-[#3e0099] to-[#6352d2] bg-clip-text text-transparent 
-                  drop-shadow-[0_0_18px_rgba(142,45,226,0.8)]"
-                >
-                  {product.title}
-                </h2>
-
-                <p className="text-gray-100 text-lg leading-relaxed mb-6 drop-shadow-[0_0_6px_rgba(255,255,255,0.3)]">
-                  {product.description}
-                </p>
-              </div>
-            </div>
-          </ScrollRevealWrapper>
+        {PRODUCTS_DATA.map((product, index) => (
+          <ProductSection
+            key={product.id}
+            product={product}
+            index={index}
+            setSectionRef={setSectionRef}
+          />
         ))}
       </div>
+
+
     </div>
   );
-}
+};
+
+export default Product;

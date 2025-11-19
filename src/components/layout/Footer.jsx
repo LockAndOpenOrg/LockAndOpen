@@ -54,7 +54,7 @@ export default function Footer() {
 
       {/* Grid Background */}
       <div
-        className="absolute inset-0 opacity-[0.09] pointer-events-none"
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
         style={{
           backgroundImage:
             "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M5 13h50v1H5zM5 17h50v1H5zM5 21h50v1H5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
@@ -63,7 +63,7 @@ export default function Footer() {
       />
 
       {/* White Fade */}
-      <div className="absolute inset-0 bg-gradient-to-t from-white/10 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-transparent pointer-events-none" />
 
       {/* CONTENT */}
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 px-4">
@@ -77,7 +77,7 @@ export default function Footer() {
             className="flex flex-col items-center lg:items-start gap-3"
           >
             <div className="relative w-20 h-20 flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6] to-[#8e2de2] blur-[35px] opacity-80 animate-pulse" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#000e24] to-[#09001f] blur-[35px] opacity-80 animate-pulse" />
               <img
                 src={logo}
                 alt="LockAndOpen Logo"
@@ -99,7 +99,7 @@ export default function Footer() {
         <div className="flex flex-col items-center lg:items-end">
           {/* Inner Wrapper: Shrinks to fit the widest child (the icon row), forcing the h4 to match. */}
           <div className="flex flex-col w-fit">
-            <h4 className="text-xl font-bold text-gray-400 mb-5 border-b border-[#3b82f6]/30 pb-1 text-center lg:text-right w-full px-6">
+            <h4 className="text-xl font-bold text-gray-400 mb-5 border-b border-[#3b82f6]/10 pb-1 text-center lg:text-right w-full px-6">
               Connect With Us
             </h4>
 
