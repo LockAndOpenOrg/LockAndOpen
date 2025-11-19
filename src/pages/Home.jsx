@@ -10,11 +10,15 @@ import Product from "../components/Product";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/layout/Footer";
 
+
+import FloatingChatbot from "../components/FloatingChatbot";
+
+
 export default function HomePage() {
   return (
     <>
       <Header />
-
+<FloatingChatbot />
       <main>
         {/* --- HERO SECTION --- */}
         <section className="relative w-full overflow-hidden bg-gradient-to-tr from-[#010017] via-[#030139] to-[#000010] animate-gradient">
