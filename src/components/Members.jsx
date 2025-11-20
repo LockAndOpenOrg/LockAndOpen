@@ -2,10 +2,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
-import arunImg from "../assets/photo/arun.jpeg";
+import arunImg from "../assets/photo/arun.png";
 import asifImg from "../assets/photo/asif.png";
 import preethiImg from "../assets/photo/preethi.png";
-import irfanImg from "../assets/photo/irfan.jpg";
+import irfanImg from "../assets/photo/irfan.png";
 
 // ---------------- ICONS ----------------
 const IconArrowLeft = (props) => (
