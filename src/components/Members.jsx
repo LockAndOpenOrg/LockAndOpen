@@ -125,7 +125,7 @@ const Members = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
 
           {/* MEMBER IMAGE */}
-          <div className="relative h-[260px] w-full max-w-xs mx-auto">
+          <div className="relative h-[330px] w-full max-w-xs mx-auto">
             <AnimatePresence mode="wait">
               <motion.img
                 key={membersData[active].image}
