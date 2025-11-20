@@ -38,14 +38,14 @@ const buttonVariants = {
 };
 
 export default function ContactSection() {
-  const zohoBookingLink = "YOUR_ZOHO_BOOKINGS_LINK_HERE";
+  const BookingLink = "https://koalendar.com/e/meet-with-lockandopen-founder";
 
   const handleSchedule = () => {
-    if (zohoBookingLink === "YOUR_ZOHO_BOOKINGS_LINK_HERE") {
-      alert("Please update your Zoho Bookings link in the code.");
-      return;
-    }
-    window.open(zohoBookingLink, "_blank");
+     if (!BookingLink) {
+    alert("Booking link is missing.");
+    return;
+  }
+  window.open(BookingLink, "_blank");
   };
 
   return (
