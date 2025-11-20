@@ -107,7 +107,7 @@ const handleSubmit = async (e) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-4xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#a35af0] to-[#6277ff]"
+            className="text-5xl md:text-5xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#a35af0] to-[#6277ff]"
           >
             Join Our Inner Circle
           </motion.h2>
@@ -117,7 +117,7 @@ const handleSubmit = async (e) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-gray-300 text-sm max-w-lg mx-auto md:mx-0 font-light"
+    className="text-gray-300 text-base max-w-lg mx-auto md:mx-0 font-light"
           >
             Become part of a growing network dedicated to innovation,
             collaboration, and creativity.
@@ -131,7 +131,7 @@ const handleSubmit = async (e) => {
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6 }}
     viewport={{ once: true }}
-    className="w-full max-w-xs sm:max-w-sm bg-[#0b0130]/70 border border-[#3b82f6]/30 rounded-2xl p-5 sm:p-5 text-left backdrop-blur-md shadow-lg shadow-blue-900/10"
+className="w-full max-w-md sm:max-w-lg bg-[#0b0130]/70 border border-[#3b82f6]/30 rounded-3xl p-8 text-left backdrop-blur-md shadow-xl shadow-blue-900/20"
   >
     <AnimatePresence mode="wait">
       {!submitted ? (

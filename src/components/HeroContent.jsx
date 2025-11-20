@@ -16,7 +16,7 @@ export default function HeroContent() {
       <CTAInput />
 
       {/* Add the 'global' attribute here */}
-      <style jsx global>{`
+      <style >{`
         @keyframes fade-in {
           from {
             opacity: 0;

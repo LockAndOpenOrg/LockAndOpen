@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
-// ✅ Navigation links
+//  Navigation links
 const navLinks = [
   { href: "#products", label: "Product" },
   { href: "#members", label: "Members" },
@@ -12,7 +12,7 @@ const navLinks = [
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("#home");
+  const [activeLink, setActiveLink] = useState("");
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -31,14 +31,15 @@ export default function Header() {
       >
         {/* 🔹 Logo */}
         <div className="flex-shrink-0">
-          <a href="#home" onClick={() => setActiveLink("#home")}>
-            <img
-              src="https://pub-abc94215359a43da824a781ae43c96c4.r2.dev/assets/photo/lockandopen_logo.png"
-              alt="LockAndOpen Logo"
-              className="h-12 w-auto drop-shadow-[0_0_6px_rgba(120,0,255,0.4)]"
-            />
-          </a>
-        </div>
+  <a href="#home" onClick={() => window.location.reload()}>
+    <img
+      src="https://pub-abc94215359a43da824a781ae43c96c4.r2.dev/assets/photo/lockandopen_logo.png"
+      alt="LockAndOpen Logo"
+      className="h-12 w-auto brightness-150 drop-shadow-[0_0_10px_rgba(160,80,255,0.7)]"
+    />
+  </a>
+</div>
+
 
         {/* 🔹 Desktop Navigation */}
         <ul className="hidden md:flex gap-8 font-medium text-sm">

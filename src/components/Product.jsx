@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 // ProductShowcase.jsx
 import React, { useRef, useState, useEffect } from "react";
@@ -19,7 +18,7 @@ const PRODUCTS_DATA = [
     link: "https://picstream.lockandopen.in/",
     imagePlaceholder: PicStreamImg,
     isComingSoon: false,
-gradient: "radial-gradient(circle at 70% 30%, #08001f 0%, #00000f 80%)",
+    gradient: "radial-gradient(circle at 70% 30%, #08001f 0%, #00000f 80%)",
     accent: "#38bdf8",
     glowColor: "#140145",
   },
@@ -31,14 +30,14 @@ gradient: "radial-gradient(circle at 70% 30%, #08001f 0%, #00000f 80%)",
     link: "#",
     imagePlaceholder: ComingSoonImg,
     isComingSoon: true,
-gradient: "radial-gradient(circle at 70% 30%, #08001f 0%, #00000f 80%)",
+    gradient: "radial-gradient(circle at 70% 30%, #08001f 0%, #00000f 80%)",
     accent: "#a855f7",
     glowColor: "#2e1065",
   },
 ];
 
 // --- Product Section ---
-const ProductSection = ({ product, index, setSectionRef }) => {
+const ProductSection = ({ product, index }) => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { amount: 0.3 });
 
@@ -48,19 +47,13 @@ const ProductSection = ({ product, index, setSectionRef }) => {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
-
-  // FIX: prevent fading out
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 1]);
-
-  useEffect(() => {
-    if (sectionRef.current) setSectionRef(sectionRef.current, index);
-  }, [index, setSectionRef]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 1]); // No fade out
 
   return (
     <section
       ref={sectionRef}
       id="products"
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden snap-start font-sans"
+      className="relative w-full py-28 flex items-center justify-center overflow-hidden font-sans"
     >
       {/* Background */}
       <div
@@ -68,9 +61,9 @@ const ProductSection = ({ product, index, setSectionRef }) => {
         style={{ background: product.gradient }}
       />
 
-<div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] z-[1]" />
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] z-[1]" />
 
-      <div className="container mx-auto px-8 md:px-16 lg:px-24 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center h-full">
+      <div className="container mx-auto px-8 md:px-16 lg:px-24 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         {/* Left Content */}
         <motion.div
           className="order-2 lg:order-1"
@@ -134,7 +127,6 @@ const ProductSection = ({ product, index, setSectionRef }) => {
         </motion.div>
 
         {/* Right Image */}
-        {/* Right Image */}
         <motion.div
           style={{ y, opacity }}
           className="order-1 lg:order-2 flex justify-center lg:justify-end relative"
@@ -142,9 +134,9 @@ const ProductSection = ({ product, index, setSectionRef }) => {
           {/* Glow */}
           <div
             className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
-    rounded-full blur-3xl ${
-      product.isComingSoon ? "opacity-10" : "opacity-60"
-    }`}
+              rounded-full blur-3xl ${
+                product.isComingSoon ? "opacity-10" : "opacity-60"
+              }`}
             style={{
               width: "min(70vmin, 720px)",
               height: "min(40vmin, 420px)",
@@ -157,13 +149,13 @@ const ProductSection = ({ product, index, setSectionRef }) => {
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.28 }}
             className={`relative w-full max-w-[760px] lg:max-w-[640px] aspect-[16/10]
-    ${
-      product.isComingSoon
-        ? "bg-transparent" /* NO DARK LAYER */
-        : "bg-[#02011A]/40 backdrop-blur-lg"
-    }
-    rounded-2xl border border-white/10 shadow-xl overflow-hidden 
-    flex items-center justify-center p-3`}
+              ${
+                product.isComingSoon
+                  ? "bg-transparent"
+                  : "bg-[#02011A]/40 backdrop-blur-lg"
+              }
+              rounded-2xl border border-white/10 shadow-xl overflow-hidden 
+              flex items-center justify-center p-3`}
           >
             <img
               src={product.imagePlaceholder}
@@ -175,7 +167,6 @@ const ProductSection = ({ product, index, setSectionRef }) => {
               }`}
             />
 
-            {/* Remove overlays for Coming Soon */}
             {!product.isComingSoon && (
               <>
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent rounded-2xl pointer-events-none" />
@@ -191,74 +182,13 @@ const ProductSection = ({ product, index, setSectionRef }) => {
 
 // Main
 const Product = () => {
-  const [activeSection, setActiveSection] = useState(0);
-  const scrollContainerRef = useRef(null);
-  const sectionsRef = useRef([]);
-
-  const setSectionRef = (el, index) => (sectionsRef.current[index] = el);
-
-  const navigateToSection = (index) => {
-    if (!scrollContainerRef.current || !sectionsRef.current[index]) return;
-
-    scrollContainerRef.current.scrollTo({
-      top: sectionsRef.current[index].offsetTop,
-      behavior: "smooth",
-    });
-  };
-
-  const handleScroll = () => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const center = container.scrollTop + container.clientHeight / 2;
-
-    const index = sectionsRef.current.findIndex((sec) => {
-      if (!sec) return false;
-      const top = sec.offsetTop;
-      const h = sec.offsetHeight;
-      return center >= top && center < top + h;
-    });
-
-    if (index !== -1 && index !== activeSection) setActiveSection(index);
-  };
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    handleScroll();
-    container.addEventListener("scroll", handleScroll, { passive: true });
-
-    const onResize = () => handleScroll();
-    window.addEventListener("resize", onResize);
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", onResize);
-    };
-  }, [activeSection]);
-
   return (
-
-    
-<div className="w-full h-screen bg-[#010014] text-white">
-      <div
-        ref={scrollContainerRef}
-  className="h-screen overflow-y-auto snap-y snap-mandatory no-scrollbar"
-  style={{ scrollBehavior: "smooth" }}
-        tabIndex={-1}
-      >
+    <div className="relative w-full min-h-screen bg-[#010014] text-white">
+      <div className="flex flex-col w-full">
         {PRODUCTS_DATA.map((product, index) => (
-          <ProductSection
-            key={product.id}
-            product={product}
-            index={index}
-            setSectionRef={setSectionRef}
-          />
+          <ProductSection key={product.id} product={product} index={index} />
         ))}
       </div>
-
-
     </div>
   );
 };
